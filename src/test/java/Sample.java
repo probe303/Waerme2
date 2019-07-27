@@ -38,8 +38,10 @@ public class Sample extends JPanel {
 		model.setMapper(new Mapper() {
 			public  float f1( float x, float y)
 			{
-				if(slider2.getValue()!=0){
-					funda.t=slider2.getValue();
+				//if(slider2.getValue()!=0){
+					//funda.t=slider2.getValue();
+				if(slider2.getScaledValue()!=0){
+					funda.t=slider2.getScaledValue();
 					return Funktion.fold(funda, u, x, y);
 				}else{
 					return  u.eval(x,y);
@@ -81,12 +83,15 @@ public class Sample extends JPanel {
 			model.setCurrentDefinition(slider1.getValue());
 	}
 
-	private void slider2StateChanged(ChangeEvent e) {
+	private void slider2StateChanged(ChangeEvent e) {/**/
+		//surfacePanel1.setModel(model);
 		model.setMapper(new Mapper() {
 			public  float f1( float x, float y)
 			{
-				if(slider2.getValue()!=0){
-					funda.t=slider2.getValue();
+				//if(slider2.getValue()!=0){
+					//funda.t=slider2.getValue();
+				if(slider2.getScaledValue()!=0){
+					funda.t=slider2.getScaledValue();
 					return Funktion.fold(funda, u, x, y);
 				}else{
 					return  u.eval(x,y);
@@ -98,6 +103,8 @@ public class Sample extends JPanel {
 				return (float)(Math.sin(x*y));
 			}
 		});
+		//if (!slider1.getValueIsAdjusting())
+			//model.setCurrentDefinition(slider1.getValue());
 		model.plot().execute();
 	}
 
@@ -107,7 +114,7 @@ public class Sample extends JPanel {
 		toolBar1 = new JToolBar();
 		button1 = new JButton();
 		slider1 = new JSlider();
-		slider2 = new JSlider();
+		//slider2 = new JSlider();
 
 		//======== this ========
 		setLayout(new BorderLayout());
@@ -147,8 +154,9 @@ public class Sample extends JPanel {
 			toolBar1.add(slider1);
 
 			//---- slider2 ----
-			slider2.setMaximum(10);
-			slider2.setValue(0);
+			slider2 = new DoubleJSlider(0, 10, 0, 10);
+			//slider2.setMaximum(10);
+			//slider2.setValue(0);
 			slider2.setPaintTicks(true);
 			slider2.setSnapToTicks(true);
 			slider2.setMinorTickSpacing(1);
@@ -170,6 +178,21 @@ public class Sample extends JPanel {
 	private JToolBar toolBar1;
 	private JButton button1;
 	private JSlider slider1;
-	private JSlider slider2;
+	//private JSlider slider2;
+	private DoubleJSlider slider2;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
+}
+
+class DoubleJSlider extends JSlider {
+
+	final int scale;
+
+	public DoubleJSlider(int min, int max, int value, int scale) {
+		super(min, max, value);
+		this.scale = scale;
+	}
+
+	public float getScaledValue() {
+		return ((float)super.getValue()) / this.scale;
+	}
 }

@@ -1,5 +1,6 @@
 public abstract class Funktion {
     static int n=50;
+    static float bord=3;
     abstract float eval(float x, float y);
     //nur über Rechtecke
     static float integrate(Funktion f, float minx, float maxx, float miny, float maxy, int xSegs, int ySegs) {
@@ -28,6 +29,6 @@ public abstract class Funktion {
 
     static float fold(Funktion f, Funktion g, float x, float y){
         FProdukt fprod=new FProdukt(f,g, x, y);
-        return Funktion.integrate(fprod, -10,10,-10,10, n, n);
+        return Funktion.integrate(fprod, -bord,bord,-bord,bord, n, n);
     }
 }
